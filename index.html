@@ -1,0 +1,118 @@
+﻿<!--
+   ┌────────────────────────────────────────┐ 
+   │ Bot                                    │ 
+   │ Copyright © 2019 Maurício Garcia       │ 
+   │ SOLVERTANK                             │ 
+   └───────────────────────────────────--───┘ 
+-->
+?>
+<html>
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<title>Solvertank Bot</title>
+	</head>
+
+	<body>
+		<div id="main">
+			<div id="msg-out"></div>
+			<div id="msg-in">
+				<input id="msg-text" placeholder="Escreva aqui" value="qual é seu nome?"></input>
+				<input id="msg-button" type="button" value="Enviar" onclick="msg_submit()">
+			</div>
+		</div>
+	</body>
+
+</html>
+
+
+
+<script>
+	
+	function msg_submit( question ) {
+
+		question = $( '#msg-text' ).val();
+		$( '#msg-text' ).val( '' );
+		$( '#msg-out' ).append( '<div class="msg-user">' + question + '</div>' );
+
+		$.ajax({
+			url: 'app.php',
+			type: 'POST',
+			data: { 'question': question },
+			success: function( answer ) {
+				$( '#msg-out' ).append( '<div class="msg-bot">' + answer + '</div>' );
+			}	
+		});
+
+		$( '#msg-out' ).scrollTop( $( '#msg-out' )[0].scrollHeight );
+	
+	}
+	
+</script>
+
+
+
+<style>
+
+		html, body {
+			width: 100%;
+			height: 100%;
+			font-family: helvetica;
+			font-size: 110%;
+			background-color: #F0F0F0;
+		}
+	
+		#main {
+			width: 600px;
+			height: 90%;
+			background-color: #FFF;
+			margin: 0 auto;
+		}
+
+		#msg-out {
+			width: 100%;
+			height: calc(100% - 90px);
+			overflow: auto;
+		}
+
+		#msg-in {
+			width: 100%;
+			height: 80px;
+			padding: 1rem;
+		}
+
+		#msg-text {
+			width: 60%;
+			font-size: 110%;
+			border: 1px solid black;
+		}
+
+		.msg-user {
+			width: 60%;
+			padding: 0.5rem;
+			float: right;
+			margin: 0.5rem;
+			margin-right: 2rem;
+			background-color: #FFFFE0;
+			border-radius: 25px;
+		}
+	
+		.msg-bot {
+			width: 60%;
+			padding: 0.5rem;
+			float: left;
+			margin: 0.5rem;
+			margin-left: 2rem;
+			background-color: cyan;
+			border-radius: 25px;
+			overflow-wrap: break-word;
+			
+		}
+	
+	</style>
+
+
+
+
